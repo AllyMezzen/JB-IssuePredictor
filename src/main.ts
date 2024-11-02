@@ -1,20 +1,23 @@
 import * as fs from 'fs';
 import {OpenAI} from 'openai';
+import {configDotenv} from 'dotenv';
+
+configDotenv();
 
 const CURRENT_GPT_MODEL = 'gpt-3.5-turbo'
 const COMPANY_NAME = "JetBrains"
 const FIELD_TO_FILL = "Subsystem"
 const DEFAULT_VALUE = "No Subsystem"
-const DATASET_SIZE = 4
+const DATASET_SIZE = 100
 
 const client = new OpenAI({
     dangerouslyAllowBrowser: true,
-    organization: "org-1L9GCAoNZgyooGBnMJ8FGxsq",
-    apiKey: "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",
+    organization: process.env.REACT_APP_ORGANIZATION_KEY,
+    apiKey: process.env.REACT_APP_API_KEY,
 });
 
-const input_to_fill = JSON.parse(fs.readFileSync('./testData/input.json', 'utf-8'));
-const input_reference = JSON.parse(fs.readFileSync('./testData/input_reference.json', 'utf-8'));
+const input_to_fill = JSON.parse(fs.readFileSync('src/testData/input.json', 'utf-8'));
+const input_reference = JSON.parse(fs.readFileSync('src/testData/input_reference.json', 'utf-8'));
 
 const subsystemValues = ["Issue list", "Frameworks. Lombok", "No Subsystem", "Settings", "--", "Debugger: GDB", "Code Analysis", "Context Navigation", "* Unspecified *", "Code Completion", "Java. Decompiler", "i18n", "UI", "Code Style - Cleanup", "Database and SQL", "R", "Debugger", "Inspections", "Home", "Unit Testing", "UI. Actions and Focus", "IntelliJ BSP plugin", "IDE", "AI Chat", "Editor. Editing Text", "Run-Debug", "Console: Terminal", "Intentions, Inspections"];
 
